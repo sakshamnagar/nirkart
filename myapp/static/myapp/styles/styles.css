@@ -1,0 +1,323 @@
+/* Home Page */
+
+html {
+    height: 100%;
+    width: 100%;
+}
+
+#logoname {
+    margin-bottom: 3px;
+    width: 130px;
+}
+
+
+#logo {
+    height: 30px;
+    width: 130px;
+    margin-right: 100px;
+    align-self: center;
+}
+
+#cartlengthident {
+    background-color: orangered;
+    border: 1px;
+    font-size: 12px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: bold;
+    align-self: start;
+    margin: 0px;
+}
+
+body {
+    height: auto;
+    width: 100%;
+}
+
+.navoptions {
+    font-size: 16px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    margin-left: 5px !important;
+}
+
+li:hover {
+    font-weight: bold;
+}
+
+li {
+    
+    font-weight: light !important;
+    align-self: center !important;
+    margin-right: 30px;
+}
+
+#header {
+    background-color: #B5e61D ;  /*#a890f3*/  /*#B5e61D*/
+    height: 70px;
+}
+
+
+
+form {
+    height: 40px;
+}
+
+.container {
+    height: 100%;
+}
+
+.container-fluid {
+    margin-left: 50px;
+    margin-right: 50px;
+    padding: 10px;
+}
+
+.container-flex {
+    display: flex;
+    justify-content: space-between;
+    font-size:small;
+    margin-top: 10px;
+}
+
+p {
+    margin-bottom: 5px;
+}
+
+.flex-item img{
+    height: 50px;
+    width: 50px;
+    border-radius: 20%;
+}
+
+#carousel-item1,#carousel-item2,#carousel-item3 {
+    height: 80vh;
+    font-weight: bold;
+}
+
+img {
+    height: 80vh;
+    width: 100%;   
+}
+
+.carousel-caption {
+    padding: px;
+    color: rgb(1, 36, 1);
+}
+
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 1 13 13' fill='black'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e");
+    opacity: 1;
+     
+}
+
+.carousel-control-next-icon {
+    background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 1 13 13' fill='black'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    opacity: 1; 
+}
+
+.carousel-indicators button {
+    background-color: #B5e61D;
+}
+
+.btn {
+    background-color:#B5e61D ;
+    border-color:#B5e61D ;
+    color:rgb(1, 36, 1);
+    
+}
+
+.btn:hover {
+    font-weight: bold;
+    color:rgb(1, 36, 1);
+}
+
+button.btn.btn-dark:hover {
+    font-weight: bold;
+    color:rgb(1, 36, 1);
+}
+
+
+#grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: auto;
+
+}
+
+#albumgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 30px;
+    row-gap: 15px;
+    font-size: smaller;
+}
+
+#albumgrid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    font-size: smaller;
+}
+
+
+#catgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: auto;
+}
+
+#homebanner {
+    background-image: url('../../../../media/images/pexels-athena-2043590.jpg');
+    background-size: auto 81vh;
+    height:100%;
+    width:100%;
+}
+
+
+#albumimg {
+    height:100%;
+    width:100%;
+}
+
+.grid-item img {
+    height: 150px; 
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+
+
+.grid-item button, .flex-item button {
+    border: 0px;
+    background-color: white;
+}
+
+.card-body {
+    background-color: rgb(1, 36, 1);
+    color: white;
+}
+
+img.card {
+    width:fit-content; 
+    height:fit-content; 
+    border:0px;
+}
+
+.row {
+    padding: 0px;
+    height: auto;
+    margin-bottom: 60px;
+}
+
+.h-100 {
+    object-fit: cover;
+    background-image: url(/DJANGO_COURSE_V2/00-HTML/assets/images/slider/slider-1/1.jpg);
+}
+
+footer {
+    background-color: #B5e61D; /*#a890f3*/  /*#B5e61D*/
+  
+}
+
+
+
+
+@media (min-width:200px) and (max-width:768px) {
+
+    svg {
+        height: 15px;
+        width: 15px;
+    }
+
+    a.nav-link {
+        font-size: 15px;
+    }
+
+    form,form>.btn {
+        height: 25px !important;
+        width: auto !important;
+        margin-top: 0px;
+        padding: 0px !important;
+    }
+
+    .container-fluid {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+
+    #carousel-item1, #carousel-item2, #carousel-item3 {
+        height: 40vh;
+        font-weight: bold;
+    }
+    
+    img {
+        height: 40vh;
+        width: 100%;
+    }
+
+    li {
+        margin-right:10px;
+        font-weight: light !important;
+        align-self:self-start !important;    
+    }   
+
+    #logo {
+        height: 50px;
+        width: 100px;
+        margin: 0px !important;
+        align-self: center;
+    }
+
+    .carousel-caption {
+        font-size: 12px;
+        color: rgb(1, 36, 1);
+    }
+ 
+    h1 {
+        font-size: 20px;
+    }
+
+    .btn-primary {
+        width: auto;
+        height: auto;
+        font-size: 12px !important;
+    }
+
+    nav.navbar {
+        position: sticky !important;
+        z-index: 1;
+        top: 0;
+    }
+
+    .navbar-nav>li {
+        align-self: center !important;
+
+    }
+
+
+    #grid {
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        font-size: small;
+        margin-left: 0px !important;
+
+    }
+    
+    .grid-item img {
+        height: 100px;
+        width: 100px;
+        margin-bottom: 10px;
+    }
+
+    .container-flex {
+        overflow: auto;
+        white-space: nowrap;
+    }
+
+}
+
+

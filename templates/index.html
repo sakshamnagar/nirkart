@@ -1,0 +1,501 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nirart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="{% static 'myapp/styles/styles.css'%}" rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'myapp/styles/product-styles.css'%}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    {% block css %}<link rel="stylesheet" href="style.css">{% endblock %}
+</head>
+<body>
+
+<div id="wrap">
+
+<!--Fist Navbar-->  
+    
+<nav class="navbar navbar-expand-lg" id="header">
+  <div class="container-fluid">
+
+  <!--Logo-->
+  <a class="navbar-brand" aria-current="page" href="{% url 'myapp:home' %}" id="logoname"><img id="logo" src="{% static 'myapp/assets/logo.png'%}"></a>
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+  <!--Logo ends-->
+
+  <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto ms-lg-5 ms-md-2 mb-2 mb-lg-0">
+        <!--Search-->
+        <li class="mx-5">
+          <form class="d-flex mt-lg-0 ms-lg-5 ms-md-2 h-auto" style="width: 25vw;" role="search" method="GET" action="{% url 'myapp:search' %}" autocomplete="off">
+            <input class="form-control me-1" style="border: 1px;" type="search" placeholder="  Start Typing..." aria-label="Search" name="query">
+            <button class="btn btn-light d-flex justify-content-center align-items-center" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search-heart-fill" viewBox="0 0 16 16">
+              <path d="M6.5 13a6.474 6.474 0 0 0 3.845-1.258h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.008 1.008 0 0 0-.115-.1A6.471 6.471 0 0 0 13 6.5 6.502 6.502 0 0 0 6.5 0a6.5 6.5 0 1 0 0 13m0-8.518c1.664-1.673 5.825 1.254 0 5.018-5.825-3.764-1.664-6.69 0-5.018Z"/>
+            </svg>
+          </button>
+          </form>
+      </li>
+      <!--Search ends-->
+      </ul>
+      <!--Buttons acount,cart and seller-->
+      <span>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!--Account-->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-muted d-flex align-items-center" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+            <!--Account Icon-->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-circle d-block mx-auto mb-1" viewBox="0 0 16 16">
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+              </svg>
+              <!--Account icon ends-->
+              
+            <p class="navoptions m-0 p-0">Account</p>
+          </a>
+            <ul class="dropdown-menu">
+              {% if request.user.is_authenticated %}
+              <li class="ms-2 fw-normal text-muted">Hi {{user.first_name}}!</li>
+              <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+              <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+              <li><a class="dropdown-item" href="#">My Orders</a></li>
+              {% else %}
+              <li style="display:none;"></li>
+              <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+              <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'signup' %}">New User? Signup?</a></li>
+              {% endif %}
+            </ul>
+        </li>
+        <!--Account ends-->
+
+        <!--Cart-->
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center" style="height: 50px;" href="{% url 'order:cart' %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart-fill d-block mx-auto mb-1" viewBox="0 0 16 16">
+            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+            </svg>
+
+            {% if request.session.cart.items|length %}
+            <div id="cartlengthident" class="m-0">
+              {{request.session.cart.items|length}}
+            </div>
+            {% endif %}
+
+            <p class="navoptions m-0 p-0">Cart</p>
+          </a>
+        </li>
+        <!--Cart ends-->
+
+        <li class="nav-item me-0">
+          {% if request.user.is_authenticated and request.user.vendor %}
+          <a class="nav-link d-flex align-items-center" href="{% url 'vendor-dash' %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
+              <path d="M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2M3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
+              <path fill-rule="evenodd" d="M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z"/>
+            </svg>
+            <p class="navoptions p-0 m-0">Seller Account</p>
+          </a>
+          {% else %}
+          <a class="nav-link d-flex align-items-center" href="{% url 'become_vendor' %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-seam-fill" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.01-.003.268-.108a.75.75 0 0 1 .558 0l.269.108.01.003 6.97 2.789ZM10.404 2 4.25 4.461 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339L8 5.961 5.596 5l6.154-2.461z"/>
+              </svg>
+            <p class="navoptions p-0 m-0">Become Seller</p>
+          </a>
+            {% endif %}
+        </li>
+      </ul>
+      </span>
+  </div>
+  </div>
+</nav>
+
+
+<!--Second Navbar-->
+
+
+
+    <nav class="navbar navbar-expand-md navbar-dark mx-0 px-0" aria-label="Fourth navbar example" style="background-color:white; height: 7.5vh;">
+      <div class="container-fluid">
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+  
+        <div class="navbar-collapse collapse d-flex justify-content-between mx-0 px-0" id="navbarsExample04">
+          <ul class="navbar-nav">
+            {% for i in maincat %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle fw-bold font text-muted" href="#" data-bs-toggle="dropdown" aria-expanded="false">{{i.name}}</a>
+              <ul class="dropdown-menu" style="background-color: whitesmoke">
+                 {% for cat in i.category_set.all %}
+                <li><a class="dropdown-item text-muted fw-bold font text-muted" href="{% url 'myapp:category_page' cat.slug %}">{{cat.name}}</a></li>
+                {% endfor %}  
+              </ul>
+            </li>
+            {% endfor %}   
+
+            <!--Commented code for future use
+              
+              <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-muted" href="#" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item text-muted" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>-->
+
+            
+
+              
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main>
+    {% block content %}
+
+<!--Categories
+<div class="container">
+  <div class="container-flex">
+
+    <div id="categories">
+      <div class="flex-item">
+        <a herf="#">
+          <button>
+            <img src="{% static '/assets/images/catgories/10_YKKD3Vp.jpg' %}">
+            <p>Product</p>
+          </button>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+-->
+
+<!--Carousel-->   
+
+    <div id="myCarousel" class="carousel slide mt-1" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class="active" aria-current="true"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item" id="carousel-item1">
+            <img src="{% static 'myapp/assets/slider/12.jpg'%}">
+            <div class="container">
+              <div class="carousel-caption text-start">
+                <h1>Example headline.</h1>
+                <p class="opacity-75">Some representative placeholder content for the first slide of the carousel.</p>
+                <p><a class="btn btn-lg" href="#">SHOP NOW</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item" id="carousel-item2">
+            <img src="{% static 'myapp/assets/slider/3.jpg'%}">
+            <div class="container">
+              <div class="carousel-caption">
+                <h1>Another example headline.</h1>
+                <p>Some representative placeholder content for the second slide of the carousel.</p>
+                <p><a class="btn btn-lg" href="#">SHOP NOW</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item active" id="carousel-item3">
+            <img src="{% static 'myapp/assets/slider/11.jpg'%}">
+            <div class="container">
+              <div class="carousel-caption text-end">
+                <h1>One more for good measure.</h1>
+                <p>Some representative placeholder content for the third slide of this carousel.</p>
+                <p><a class="btn btn-lg" href="#">SHOP NOW</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+
+<!--Albums -->
+
+  <div class="bg-body-secondary px-2 p-2">
+    <div class="card height">
+      <div class="mx-3 mt-4 mb-4">
+        <div class="text18 mt-2 mb-2 text-primary">TOP DEALS :</div>
+        <div class="d-flex justify-content-around">
+          {% for i in top_deal %}
+            {% if i.status == 'active' %}
+              <div class="m-2">
+                <div class="card rounded-4 productdetails">
+                  <div class="border-bottom-0"></div>
+                <div class="modal-body p-2 pt-0">
+                  <div class="grid-item">
+                    <a href="{% url 'myapp:product_detail' i.slug %}">
+                      <div class="d-flex justify-content-center"><img id="albumimg" class="rounded-4" src="{% get_media_prefix %}{{i.image}}" alt="{{ i.name }}"></div>
+                      <div class="itemname">{{i.name}}</div>
+                      <strong class="text18 text-black">₹{{i.discounted_price}}</strong>
+                      {% if i.discount %}
+                      <span class="text-decoration-line-through text14 text-danger">₹{{i.price}}</span>
+                      <span id="discountPrice">{{i.discount}}% OFF</span>
+                      {% endif %}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%endif%}  
+          {% endfor %}
+          <div class="d-flex align-items-center mx-2"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="orangered" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
+          </svg></a></div>
+        </div>         
+      </div>
+    </div>
+  </div>
+
+
+<!------------------------------->
+<div class="d-flex"> 
+  <div class="bg-body-secondary px-1 flex-fill">
+    <div class="card height">
+      <div class="mx-3 mt-4">
+        <div class="text18 mt-2 mb-2 text-primary">WOMEN CLOTHING TOP PICKS :</div>
+        <div id="albumgrid2">
+          {% for i in test %}
+            {% if i.status == 'active' %}
+              <div class="m-1">
+                <div class="card rounded-4 productdetails">
+                  <div class="border-bottom-0"></div>
+                <div class="modal-body pt-0 p-1">
+                  <div class="grid-item">
+                    <a href="{% url 'myapp:product_detail' i.slug %}">
+                      <div class="d-flex justify-content-center"><img id="grid-item img" class="rounded-4" src="{% get_media_prefix %}{{i.image}}" alt="{{ i.name }}"></div>
+                      <div class="itemname">{{i.name}}</div>
+                      <strong class="text18 text-black">₹{{i.discounted_price}}</strong>
+                      {% if i.discount %}
+                      <span class="text-decoration-line-through text14 text-danger">₹{{i.price}}</span>
+                      <span id="discountPrice">{{i.discount}}% OFF</span>
+                      {% endif %}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%endif%}  
+          {% endfor %}
+        </div>         
+      </div>
+    </div>
+  </div>
+
+
+  <div class="bg-body-secondary px-1 flex-fill">
+    <div class="card height">
+      <div class="mx-3 mt-4">
+        <div class="text18 mt-2 mb-2" style="color: darkviolet;">FASHION FOR HER :</div>
+        <div id="albumgrid2">
+          {% for i in test %}
+            {% if i.status == 'active' %}
+              <div class="m-1">
+                <div class="card rounded-4 productdetails">
+                  <div class="border-bottom-0"></div>
+                <div class="modal-body pt-0 p-1">
+                  <div class="grid-item">
+                    <a href="{% url 'myapp:product_detail' i.slug %}">
+                      <div class="d-flex justify-content-center"><img id="grid-item img" class="rounded-4" src="{% get_media_prefix %}{{i.image}}" alt="{{ i.name }}"></div>
+                      <div class="itemname">{{i.name}}</div>
+                      <strong class="text18 text-black">₹{{i.discounted_price}}</strong>
+                      {% if i.discount %}
+                      <span class="text-decoration-line-through text14 text-danger">₹{{i.price}}</span>
+                      <span id="discountPrice">{{i.discount}}% OFF</span>
+                      {% endif %}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%endif%}  
+          {% endfor %}
+        </div>         
+      </div>
+    </div>
+  </div>
+  
+  <div class="flex-fill">
+    <div class="bg-body-secondary px-1 flex-fill">
+      <div class="card height">
+        <div class="mx-3 mt-4 mb-2" >
+          <div class="d-flex justify-content-between">
+            <div class="text18 text-primary">BAGS & PURSES<br> <span style="color: orangered;">UPTO 40% OFF</span></div>
+            <div class="d-flex align-items-center mx-4"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="orangered" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+              <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
+            </svg></a></div>
+          </div>
+          <div class="d-flex justify-content-around mt-2">
+            <a id="homebanner" href="">
+                  
+                    {% for banner in banner %}
+                      {% if banner.name == 'purse'  %}
+                        <img class="rounded-4" style="height: 100%;" src="{% get_media_prefix %}{{banner.image}}">
+                      {% endif %}
+                    {% endfor %}
+            </a>
+          </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!------------------------------->
+<div class="d-flex"> 
+  <div class="bg-body-secondary px-2 p-2 flex-fill">
+    <div class="card height">
+      <div class="mx-3 mt-4">
+        <div class="text18 mt-2 mb-2 text-primary">MEN'S TOP PICKS :</div>
+        <div id="albumgrid">
+          {% for i in test %}
+            {% if i.status == 'active' %}
+              <div class="m-2">
+                <div class="card rounded-4 productdetails">
+                  <div class="border-bottom-0"></div>
+                <div class="modal-body p-2 pt-0">
+                  <div class="grid-item">
+                    <a href="{% url 'myapp:product_detail' i.slug %}">
+                      <div class="d-flex justify-content-center"><img id="grid-item img" class="rounded-4" src="{% get_media_prefix %}{{i.image}}" alt="{{ i.name }}"></div>
+                      <div class="itemname" style="font-size: medium;">{{i.name}}</div>
+                      <strong class="text18 text-black">₹{{i.discounted_price}}</strong>
+                      {% if i.discount %}
+                      <span class="text-decoration-line-through text14 text-danger">₹{{i.price}}</span>
+                      <span id="discountPrice">{{i.discount}}% OFF</span>
+                      {% endif %}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%endif%}  
+          {% endfor %}
+        </div>         
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-fill">
+    <div class="bg-body-secondary px-2 p-2 flex-fill">
+      <div class="card height">
+        <div class="mx-3 mt-4 mb-3">
+          <div class="d-flex justify-content-between">
+          <div class="text18 text-primary">BAGS & WALLETS<br> <span style="color: orangered;">UPTO 40% OFF</span></div>
+          <div class="d-flex align-items-center mx-4"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="orangered" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
+          </svg></a></div>
+        </div>
+          <div class="d-flex justify-content-around mt-3 pb-2">
+            <a href="">
+            
+                    {% for banner in banner %}
+                      {% if banner.name == 'Mens clothing'  %}
+                        <img class="rounded-4 mb-3 p-2" id="albumimg" src="{% get_media_prefix %}{{banner.image}}">
+                      {% endif %}
+                    {% endfor %}
+            </a>
+          </div>
+        </div>         
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<!--Ads-->
+
+<div class="container mt-5">
+<div class="row align-items">
+  <div class="col-md-6">
+    <div class="h-100 p-5 border rounded-3">
+      <h2>Change the background</h2>
+      <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
+      <button class="btn btn-outline-secondary mt-3" type="button">Example button</button>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="h-100 p-5 border rounded-3">
+      <h2>Add borders</h2>
+      <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
+      <button class="btn btn-outline-secondary mt-3" type="button">Example button</button>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}
+
+<!--Footer-->
+</main>
+<div class="grid-item pb-0 mb-0">
+  <footer class="p-1 pb-0 mb-0">
+    
+    <ul class="nav justify-content-center border-bottom pb-2 mb-2">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+    </ul>
+    <div class="grid-item justify-content-center align-items-center">
+      <div class="d-flex justify-content-center nav-item">
+        <div class="d-grid justify-content-center">
+          <img id="logo" class="pb-0 mb-1 px-1" src="{% static 'myapp/assets/logo.png'%}">
+          <p class="text-body-secondary px-0 mx-0">© 2023 Nirkart, Inc</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+</div>
+
+
+      
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+  {%block script%}<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>{%endblock%}
+</body>
+</html>
+
+
+
+
+
+

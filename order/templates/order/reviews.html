@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{%load static%}
+
+{% block content %}
+
+<div class="d-flex justify-content-center mt-5" style="height: 100vh;">
+    {% for message in messages %}
+    {{message}}
+    {% endfor %}
+    <div class="d-block justify-content-center align-items-center">
+        <h3 class="text-muted" style="width: 30vw;">{{items.name}}</h3>
+        <h6 class="text-primary my-2">Seller: {{items.vendor.store_name}}</h6>
+        <form method="POST">
+            {% csrf_token %}
+            <p class="mt-3">Rate: <br><span class="pt-3">{{form.rating}}</span></p>
+            <p class="mt-3">Comment: <br>{{form.review}}</p>
+            <input class="mt-3 btn btn-success" value="submit" type="submit">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

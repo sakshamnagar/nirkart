@@ -1,0 +1,151 @@
+#discountPrice {
+    background-color: green !important;
+    border-radius: 5%;
+    padding: 3px;
+    color: white; 
+    font-size: smaller; 
+}
+
+#userrating {
+    background-color: red;
+    border-radius: 5%;
+    padding: 3px;
+    color: white; 
+    font-size: smaller; 
+    font-weight: bold;
+}
+
+#address {
+    height: 7vh !important;
+}
+
+#orderdetail {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0px;
+    align-self: flex-start;
+    height: auto;
+}
+
+
+.model-header {
+    display: flex;
+}
+
+.position-static {
+    background-color: white;
+}
+
+h2 {
+    
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-color: #E9ECEF;
+}
+
+
+#product-img {
+    height: 65vh;
+    width:30vw;
+    border-radius: 10%;
+}
+
+.rating {
+    background-color: #26A541;
+    border-radius: 50px;
+    width: fit-content;
+}
+
+.star {
+    fill: orangered;
+}
+
+.starrate {
+    fill: orange;
+}
+
+.text14 {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.text18 {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.font {
+    font-family: 'Roboto', Arial, sans-serif;
+}
+
+a {
+    text-decoration: none;
+}
+
+.buy {
+    width: 30vw;
+}
+
+.btn.checkoutbtn {
+    width: 12vw;
+    height: 7.5vh;
+    font-weight: 600;
+}
+
+.btn.one {
+    width: 14.5vw;
+    height: 7.5vh;
+    margin: auto;
+    font-weight: 600;
+    background-color:orange;
+}
+
+.btn.two {
+    align-content: center;
+    width: 14.5vw;
+    height: 7.5vh;
+    margin: auto;
+    font-weight: 600;
+    background-color:orangered;
+}
+
+.itemname {
+    width: 15vw;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: small;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+#item-img{
+    width: 15vw;
+    height: 30vh;
+}
+
+#cartimg{
+    width: 7.5vw;
+    height: 15vh;
+}
+
+#activeitems {
+    width: 12vw;
+    height: 25vh;
+}
+
+.productdetails {
+    box-shadow: none;
+    font-family: 'Roboto', Arial, sans-serif;
+    
+}
+
+.productdetails:hover {
+    background-color: #fafafa;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+

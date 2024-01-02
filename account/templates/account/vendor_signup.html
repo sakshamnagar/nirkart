@@ -1,0 +1,56 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block css %} 
+
+{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>{{message}}</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+{% if user.userprofile.is_vendor == True %}
+<div style="height: 70vh;" class="container mt-5">
+<h2>Seems that you are already a registered Vendor.</h2>
+<h2> Please <a href="#">contact us</a> if you are facing any issues.</h2>
+</div>
+{% else %}
+<div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignin">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content rounded-4 shadow bg-body-tertiary" style="border-color: yellowgreen;">
+        <div class="modal-header p-5 pb-4 border-bottom-0">
+          <h1 class="fw-bold mb-0 fs-2 text-primary">Start selling on Nirkart! <br><span class="fs-4">Register for free!</span></h1>
+        </div>
+  
+        <div class="modal-body p-5 pt-1">
+          <form class="container" method="post" action=".">
+            {% csrf_token %}
+            {% for items in form %}
+            <div class="form-floating mb-3">
+                {{items}}
+                <label for="floatingInput">{{items.label}}</label>
+              </div>
+              {% endfor %}
+              <small class="text-body-secondary">By clicking Sign up, you agree to the <a href="">Terms of Use</a></small>
+            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary mt-2" type="submit">Submit</button>
+            </a>
+            <hr class="mt-4">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}
+
+
+

@@ -1,0 +1,264 @@
+{% extends "index.html" %}
+{%load static%}
+{% load cart_tag %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'myapp/styles/product-styles.css'%}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<form method="get" action="." style="height: max-content;">
+  
+<div class="d-flex" style="min-height: max-content;">
+  
+
+  <div class="p-1 ps-2 flex-fill bg-body-secondary">
+    <div class="card height px-0">
+    <div class="d-flex justify-content-center"><h2 class="text-muted fw-bold m-5 px-5 mb-2"></h2></div>
+    <div class="container px-5">
+      <h4 class="text18">CHECKED OUT ITEMS:</h4>
+      <table class="table">
+        <tr>
+          <th>Name</th>
+          <th>Quantity</th> 
+        </tr>
+        {% for key,value in request.session.cart.items %}
+        <tr>
+          <td class="text-primary text14">{{value.name}}</td>
+          <td class="text-success text14">
+            <div class="d-flex justify-content-center">
+            <a class="btn d-flex align-items-center" href="{% url 'order:item_increment' value.product_id %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+              </svg>
+            </a>
+            <p class="m-2 text14">{{value.quantity}}</p>
+            <a class="btn d-flex align-items-center" href="{% url 'order:item_decrement' value.product_id %}">
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
+                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+              </svg>
+            </a>
+        </div></td>
+        </tr>
+        {% endfor %}
+      </table>
+      </div>
+      
+      <div class="container mt-4 mb-4 px-5 ">
+        <h4 class="text18">SHIPPING ADDRESS:</h4> 
+        <div class="container mt-2 px-0">
+          <div class="m-2 px-5">
+            <div class="row g-3 p-5 pt-3">
+              {% for add in address %}
+                <div class="form-check">
+                  <input id="useraddress" name="useraddress" type="radio" class="form-check-input" value="{{add.id}}" onclick="HideAddress();">
+                  <label class="form-check-label text-primary text14" for="credit">
+                    <p>{{add.address}}</p>
+                    <p>{{add.address2}}</p>
+                    <p>{{add.state}}</p>
+                    <p>{{add.city}}</p>
+                    <p>{{add.zip_code}}</p>
+                  </label>
+                </div>
+              {% endfor %}
+              <div class="form-check mb-3" >
+                <input onclick="Address(this)" id="useraddress" name="useraddress" type="radio" class="form-check-input">
+                <label class="form-check-label text-primary text14" for="credit">
+                  Or enter a new address
+                </label>
+              </div>
+
+              <div id="newaddress" style="display: none;">
+               <div class="d-flex justify-content-start row g-3 pt-2" > 
+              <div class="col-12">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" class="form-control" name="address" id="address" placeholder="1234 Main St">
+                <div class="invalid-feedback">
+                  Please enter your shipping address.
+                </div>
+              </div>
+  
+              <div class="col-12">
+                <label for="address2" class="form-label">Address 2 </label>
+                <input type="text" class="form-control" name="address2" id="address2" placeholder="Apartment or suite">
+                <div class="invalid-feedback">
+                  Please enter your shipping address.
+                </div>
+              </div>
+  
+              <div class="col-md-5">
+                <label for="state" class="form-label">State</label>
+                <input type="text" class="form-select" name="state" id="state">
+                <div class="invalid-feedback">
+                  Please enter state.
+                </div>
+              </div>
+  
+              <div class="col-md-4">
+                <label for="city" class="form-label">city</label>
+                <input type="text" class="form-select" name="city" id="city">
+                <div class="invalid-feedback">
+                  Please enter city.
+                </div>
+              </div>
+  
+              <div class="col-md-3">
+                <label for="zip" class="form-label">Zip</label>
+                <input type="text" class="form-control" name="zip" id="zip">
+                <div class="invalid-feedback">
+                  Zip code required.
+                </div>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="save" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Save this address?
+                </label>
+              </div>
+            </div>
+            </div>
+
+            </div>
+          </div>
+      </div>         
+    </div> 
+  </div>
+</div>
+
+<!--Flex order details modal-->
+<div class="p-1 pe-2 flex-fill bg-body-secondary" id="orderdetail">
+  <div class="card height">
+    <div class="container m-3 mt-4 mb-4">
+      <div class="text18 mb-2 mt-2 mb-3 p-1 text-muted">ORDER SUMMARY :</div>
+      <div class="container d-block">
+
+       <!--Total--> 
+            <div class="m-2">
+              <div class="text18 fw-normal">
+                    Total: ₹ {{ bill_without_discount|floatformat:2 }}
+              </div>
+            </div>
+              
+         <!--Discounts-->     
+         <div class="m-2">
+          <div class="text18 fw-normal">
+                Discounts: <span style="color: green; font-weight: bold; ">- ₹ {{ discount|floatformat:2 }}</span>
+                
+          </div>
+        </div>
+
+          <!--Delivery-->  
+          <div class="m-2">
+          {% if delivery.delivery == 40 %}
+            <div class="text18 fw-normal">
+              Delivery: ₹ {{ delivery }}      
+            </div>
+          {% else %}
+          <div class="text18 fw-normal">
+            Delivery: <span class="text-decoration-line-through">₹40 </span><strong style="color: green;">FREE</strong>
+            
+          </div>
+          {% endif %}
+          </div>
+          <hr>
+           <!--Cart Total--> 
+           <div class="m-2">
+            <div>
+              <h5>CART TOTAL: <br><strong class="text-success">₹ {{ net|floatformat:2 }} </strong></h5>
+            </div>
+          </div>
+
+           
+
+          <!---------->         
+            </div>
+            <div class="text18 mb-2 mt-5 mb-3 p-1 text-muted">PAYMENT METHOD :</div>
+            <div class="form-check">
+              <input id="credit" name="card" type="radio" onclick="payment()" class="form-check-input" value="card">
+              <label class="form-check-label text-primary text14" for="credit">Credit/Debit card</label>
+            </div> 
+            <div class="form-check">
+              <input id="upi" name="upi" type="radio" onclick="payment2()" class="form-check-input" value="upi">
+              <label class="form-check-label text-primary text14" for="upi">UPI</label>
+            </div>
+            <div class="form-check">
+              <input id="cod" name="cod" type="radio" onclick="payment3()" class="form-check-input" value="cod">
+              <label class="form-check-label text-primary text14" for="cod">COD</label>
+            </div>
+
+
+            <div class="container p-5 pb-0 ps-0" id="payment" style="display: none;">
+            <div class="">
+              <div class="">
+                <label for="cc-name" class="form-label text14">Name on card</label>
+                <input type="text" class="form-control" name="cc-name" id="cc-name" placeholder="" style="height: 5vh;">
+                <div class="invalid-feedback">
+                  Name on card is required
+                </div>
+              </div>
+              <br>
+              
+              <div class="">
+                <label for="cc-number" class="form-label text14">Credit card number</label>
+                <input type="text" class="form-control" name="cc-number" id="cc-number" placeholder="" style="height: 5vh;">
+                <div class="invalid-feedback">
+                  Credit card number is required
+                </div>
+              </div>
+              <br>
+              <div class="d-flex gap-3">
+              <div class="flex-fill">
+
+                <label for="cc-expiration" class="form-label text14">Expiration</label>
+                <input type="text" class="form-control" name="cc-expiration" id="cc-expiration" placeholder="" style="height: 5vh;">
+                <div class="invalid-feedback">
+                  Expiration date required
+                </div>
+              </div>
+              
+            
+              <div class="flex-fill">
+                <label for="cc-cvv" class="form-label text14">CVV</label>
+                <input type="text" class="form-control" name="cc-cvv" id="cc-cvv" placeholder="" style="height: 5vh;">
+                <div class="invalid-feedback">
+                  Security code required
+                </div>
+              </div>
+            </div>
+
+            </div>
+          </div>
+
+          <div class="container p-5 pb-0 ps-0" id="payment2" style="display: none;">
+            <label for="upa-address" class="form-label text14">UPA Address</label>
+            <input type="text" class="form-control" name="upa-address" id="upa-address" placeholder="" style="height: 5vh;">
+            <div class="invalid-feedback">
+              UPA Address is required
+            </div>
+          </div>
+            <input type="submit" class="btn text-center text-light" style="width:25vw; background-color: green;" value="PLACE ORDER">
+          </div>  
+          </div>  
+    </div>      
+    </div>
+  </div>
+</div>
+
+</div>
+</form>
+
+
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'order/scripts/payment.js'%}"></script>
+{% endblock %}
+
+
+
+

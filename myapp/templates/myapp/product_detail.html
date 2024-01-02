@@ -1,0 +1,171 @@
+{% extends "index.html" %}
+{%load static%}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'myapp/styles/product-styles.css'%}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+
+  <div class="bg-body-secondary px-5 pt-0 pb-1" role="document">
+    <div class="card">
+      <div class="modal-header p-4 pb-4 border-bottom-0 flex">
+        <div class="" id="productdetails">
+          <div id="grid-container">
+            <div><img id="product-img" src="{% get_media_prefix %}{{item.image}}" alt="{{item.name}}"></div>
+            <div class="buy d-flex justify-content-around mt-4">
+              <a class="btn one" href="{% url 'order:cart_add' item.slug %}"><p class="text-center pt-1">ADD TO CART</p></a>
+              <a class="btn two" href="{% url 'order:buy_now' item.slug %}"><p class="text-center pt-1">BUY NOW</p></a>
+          </div>
+          </div>
+            </div>
+            <div class="container mx-3" id="productdetails">
+              <div id="grid-container">
+                <p class="text-muted text18 mt-2">{{item.name}}</p>
+                <h3 class="text18 mt-4">
+                  <strong style="font-size: 28px;">₹{{item.discounted_price}}</strong>
+                  {% if item.discount %}
+                  <span class="text-decoration-line-through text18 text-danger">₹{{item.price}}</span>
+                  <span id="discountPrice" class="text14">{{item.discount}}% OFF</span>
+                  {% endif %} 
+                </h>
+                <p class="text18 mt-4">Seller: <a href="{% url 'myapp:store' item.vendor.store_name %}">{{item.vendor.store_name}}</a></p>
+                <div class="mt-4 rating px-1"><p class="p-1 fs-3 d-flex align-items-center"><span id="avgrate" class="pe-2">{{item.avg_rating}}</span> <span id="star" class="d-flex align-items-center gap-1" >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-star-fill" id="1" viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                  </svg>
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-star-fill" id="2" viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                  </svg>
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-star-fill" id="3" viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                  </svg>
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-star-fill" id="4" viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                  </svg>
+
+                  <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-star-fill" id="5" viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                  </svg>
+                </span></p></div>
+                <a class="text14 mx-3 fw-bold text-primary" href="#scroll">{{item.reviews.count}} Reviews</a>        
+                <p class="text18 mt-4 mb-3">Available Offers:</p>
+                  {% for offer in offer %} 
+                    <p class="text14 fw-bold mt-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#26A541" class="bi bi-tag-fill" viewBox="0 0 16 16">
+                      <path d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                      </svg>
+                      Bank Offers
+                      <span class="text-muted">{{offer.admin_offer}}</span> 
+                      <a class="fw-bold" href=""> T&C</a>
+                    </p>
+                  {% endfor %}
+                  <p class="text18 mt-4">Description: <p class="mt-3 fw-bold text-muted text14">{{item.description}}</p></p>    
+      
+              </div>
+            </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="bg-body-secondary px-5 pb-2">
+    <div class="card height">
+      <div class="container mt-4 mb-4">
+        <div class="text18 mb-2 mt-2 mb-3">YOU MIGHT ALSO LIKE :</div>
+        <div class="container d-flex">
+          {% for cat in cat %}
+            {% if cat.status == 'active' %}
+              <div class="m-2">
+                <div class="card rounded-4 productdetails">
+                  <div class="border-bottom-0"></div>
+                <div class="modal-body p-2 pt-0">
+                  <div class="grid-item">
+                    <a href="{% url 'myapp:product_detail' cat.slug %}">
+                      <div><img id="item-img" class="rounded-4" src="{% get_media_prefix %}{{cat.image}}" alt="{{ cat.name }}"></div>
+                      <div class="itemname">{{cat.name}}</div>
+                      <strong class="text18 text-black">₹{{cat.discounted_price}}</strong>
+                      {% if cat.discount %}
+                        <span class="text-decoration-line-through text14 text-danger">₹{{item.price}}</span>
+                        <span id="discountPrice">{{cat.discount}}% OFF</span>
+                      {% endif %}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%endif%}  
+          {% endfor %}
+          <div class="d-flex align-items-center mx-4"><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" fill="orangered" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+            <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
+          </svg></a></div>
+        </div>       
+      </div>
+    </div>
+    
+
+
+    <div id="scroll" class="bg-body-secondary pb-2 mt-1">
+      <div class="card">
+        <div class="container mt-4 mb-4">
+          <div class="text18 mb-2 mt-2 mb-3">Reviews :</div>
+          <div class="d-block">
+            {% for rev in review %}
+                <div class="m-2">
+                  <div class="border border-black-1 rounded-4">
+                    <div class="border-bottom-0"></div>
+                  <div class="modal-body p-2 pt-0">
+                    
+                        <div class="d-block p-3">
+                          <div class="d-flex justify-content-between">
+                            <p class="text18 text-primary">{{rev.user.first_name|capfirst}} {{rev.user.last_name|capfirst}}</p>
+                            <p class="text-muted text14 fw-bold text-primary">{{rev.created_at}}</p>
+                          </div>
+                          <div class="d-flex align-items-center gap-3">
+                            {% if rev.rating == 4 or rev.rating == 5 %}
+                              <p class="p-1 px-2 mt-1 rounded-2 fw-bold" id="discountPrice">{{rev.rating}} stars</p>
+                            {% elif rev.rating == 3 %}
+                            <p class="p-1 px-2 mt-1 rounded-2 bg-warning" id="userrating">{{rev.rating}} stars</p>  
+                            {% else %}
+                              <p class="p-1 px-2 mt-1 rounded-2" id="userrating">{{rev.rating}} stars</p>
+                            {% endif %}
+                          <div class="p-2 px-0">
+                          <span id="star" class="gap-1 d-flex align-items-center justify-content-center" >
+                            
+                            {% with ''|center:rev.rating as range %}
+                            {% for i in range %}
+                            
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-star-fill star" id="rate" viewBox="0 0 16 16">
+                              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                            </svg>
+                            {% endfor %}
+                            {% endwith %}
+                        </span></div>
+                        
+                      </div>
+                        <p class="text14 fw-bold text-muted mt-3">Comment:</p>
+                        <p class="text14 fw-bold text-muted">{{rev.review}}</p>
+                      </div>
+                  </div>
+                </div>
+              </div> 
+            {% endfor %}
+          </div>       
+        </div>
+      </div>
+    </div>
+      
+  
+{% endblock %}
+
+
+{%block script%}<script src="{% static 'myapp/scripts/rating.js'%}"></script>{%endblock%}

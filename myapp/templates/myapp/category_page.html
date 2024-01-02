@@ -1,0 +1,54 @@
+{% extends "index.html" %}
+{%load static%}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'myapp/styles/product-styles.css'%}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+{% for cat in subcat %}
+
+<div class="bg-body-secondary p-2 px-1">
+    <div class="card height">
+      <div class="d-flex justify-content-between px-2 m-3 mb-2 mt-4">
+        <a class="text18 text-primary" href="{% url 'myapp:subcategory_page' cat.slug %}"><h4><strong>{{cat.name|upper}}</strong></h4></a>
+        <a class="d-flex align-items-center mx-4" href="{% url 'myapp:subcategory_page' cat.slug %}"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="orangered" class="bi bi-arrow-right-circle-fill" viewBox="0 0 16 16">
+          <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0M4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5z"/>
+        </svg></a>
+      </div>
+      <div class="mx-3 mt-2 mb-4" id="catgrid">
+        <div class="container" id="catgrid">
+                {% for item in cat.item_set.all %}
+                  {% if item.status == 'active' and forloop.counter < 11 %}
+                  <div class="container p-2">
+                    <div class="card rounded-4 productdetails">
+                      <div class="pb-2 border-bottom-0"></div>
+                      <div class="modal-body p-2 pt-0">
+                        <div class="grid-item">
+                          <a href="{% url 'myapp:product_detail' item.slug %}">
+                            <div><img id="item-img" class="rounded-4" src="{% get_media_prefix %}{{item.image}}" alt="{{ items.name }}"></div>
+                            <div class="itemname">{{item.name}}</div>
+                              <strong class="text18 text-black">₹{{item.discounted_price}}</strong>
+                              {% if item.discount %}
+                              <span class="text-decoration-line-through text14 text-danger">₹{{item.price}}</span>
+                              <span id="discountPrice">{{item.discount}}% OFF</span>
+                              {% endif %}
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            {%endif%}  
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}    
+
+{% endblock %}
+
